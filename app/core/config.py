@@ -1,7 +1,3 @@
-"""
-Arquivo de configuração da aplicação FastAPI.
-"""
-
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
