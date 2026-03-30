@@ -11,6 +11,12 @@ from modules.users.models import User
 from modules.users.schemas import UserCreate
 
 class UserRepository:
+    """
+    Repositório para manipulação de dados de Utilizadores.
+
+    Gerencia as operações de CRUD (Create, Read, Update, Delete) para a tabela de utilizadores.
+    """
+
     def __init__(self, db: Session):
         self.db = db
 

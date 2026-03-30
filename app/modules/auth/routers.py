@@ -19,9 +19,10 @@ def get_db():
 @router.post("/login", response_model=Token)
 def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     user_repo = UserRepository(db)
-
+    # O form_data.username guarda o e-mail digitado no Swagger
     user = user_repo.get_by_email(email=form_data.username)
     
+    # Valida se usuário existe E se a senha bate
     if not user or not verify_password(form_data.password, user.hashed_password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

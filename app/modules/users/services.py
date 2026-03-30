@@ -2,7 +2,9 @@ from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
 from modules.users.repositories import UserRepository
 from modules.users.schemas import UserCreate
+
 from core.security import get_password_hash
+
 from core.security import get_password_hash 
 
 class UserService:
