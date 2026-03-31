@@ -25,3 +25,25 @@ def create_user(user_in: UserCreate, db: Session = Depends(get_db)):
 @router.get("/me", response_model=UserResponse)
 def ler_dados_do_meu_perfil(current_user:User = Depends(get_current_user)):
     return current_user
+
+    # app/modules/users/routers.py
+
+# Adicione o Segurança VIP nos imports lá no topo!
+from core.dependencies import get_current_user, get_current_gestor
+from modules.users.models import User
+
+
+# ... (outras rotas) ...
+@router.delete("/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
+def apagar_usuario(
+    user_id: int, 
+    db: Session = Depends(get_db),
+    # O CADEADO: Exige que quem faz o pedido seja um Gestor!
+    current_user: User = Depends(get_current_gestor) 
+):
+    """Rota para inativar um utilizador (Soft Delete)"""
+    service = UserService(db)
+    service.delete_user(user_id)
+    
+    return None
+

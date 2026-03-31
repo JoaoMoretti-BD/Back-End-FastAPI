@@ -22,3 +22,22 @@ class UserService:
         user_in.password = get_password_hash(user_in.password)    
         
         return self.repository.create(user_in)
+
+        # app/modules/users/services.py
+from fastapi import HTTPException, status # Confirme se tem estes imports no topo!
+
+class UserService:
+    # ... (outras funções que já lá estão, como create_user) ...
+
+    def delete_user(self, user_id: int):
+        # Manda o repositório inativar o utilizador
+        deleted_user = self.repository.delete(user_id)
+        
+        # Se o repositório devolver vazio (não encontrou o ID), lançamos erro 404
+        if not deleted_user:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Utilizador não encontrado."
+            )
+        return deleted_user
+

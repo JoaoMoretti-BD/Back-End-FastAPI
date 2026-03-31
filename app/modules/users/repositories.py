@@ -37,3 +37,20 @@ class UserRepository:
         
         # 5. Devolvemos o utilizador criado
         return db_user
+
+        # app/modules/users/repositories.py
+
+class UserRepository:
+    # ... (outras funções que já lá estão, como get_by_email e create) ...
+
+    def delete(self, user_id: int):
+        # 1. Procura o utilizador pelo ID
+        user = self.db.query(User).filter(User.id == user_id).first()
+        
+        # 2. Se encontrar, fazemos o "Soft Delete" (inativamos)
+        if user:
+            user.is_active = False
+            self.db.commit() # Guarda a alteração
+            self.db.refresh(user)
+            
+        return user
